@@ -1,0 +1,36 @@
+{
+  "id": "aezo-chat-m",
+  "scripts": {
+    "dev:h5": "cross-env NODE_ENV=development UNI_PLATFORM=h5 UNI_INPUT_DIR=. vue-cli-service uni-serve",
+    "build:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 UNI_INPUT_DIR=. vue-cli-service uni-build",
+    "test": "eslint . --fix"
+  },
+  "dependencies": {
+    "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "@dcloudio/types": "^3.4.18",
+    "@dcloudio/uni-app": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-app-plus": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-cli-i18n": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-cli-shared": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-h5": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-i18n": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-migration": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-stacktracey": "^2.0.2-5000320260312001",
+    "@dcloudio/uni-template-compiler": "^2.0.2-5000320260312001",
+    "@dcloudio/vue-cli-plugin-hbuilderx": "^2.0.2-5000320260312001",
+    "@dcloudio/vue-cli-plugin-uni": "^2.0.2-5000320260312001",
+    "@dcloudio/webpack-uni-mp-loader": "^2.0.2-5000320260312001",
+    "@dcloudio/webpack-uni-pages-loader": "^2.0.2-5000320260312001",
+    "@vue/cli-plugin-babel": "^4.5.19",
+    "@vue/cli-service": "^4.5.19",
+    "copy-webpack-plugin": "^5.1.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "sass": "^1.77.8",
+    "sass-loader": "^10.5.2",
+    "vue-template-compiler": "^2.6.14"
+  }
+}

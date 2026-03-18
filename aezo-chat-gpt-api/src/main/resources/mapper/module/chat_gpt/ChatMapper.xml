@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.aezo.chat_gpt.mapper.AssetChatMapper">
+
+    <update id="updateUserAsset">
+        update mt_user_asset
+        <set>
+            asset = #{asset},
+            version = version + 1
+        </set>
+        where valid_status = 1 and user_id = #{userId}
+        and asset_type = #{assetType}
+        and version = #{version}
+    </update>
+
+    <insert id="insertUserAssetHis">
+        insert into mt_user_asset_his(id, user_id, biz_type, asset_type, asset,
+            remark, creator, create_time)
+        values(#{ctx.id}, #{ctx.userId}, #{ctx.bizType}, #{ctx.assetType}, #{ctx.asset},
+            #{ctx.remark}, #{ctx.userId}, now())
+    </insert>
+
+    <select id="findPromptList" resultType="java.util.Map">
+        select cp.id, cp.title, cp.remark, cp.description, cp.desc_cn, cp.desc_en, cp.weight, cp.icon, cp.baidu_ab_appid
+        from chat_prompt cp
+        where cp.valid_status = 1
+        <if test='ctx.id != null'>
+            and cp.id = #{ctx.id}
+        </if>
+        <if test='ctx.ids != null and ctx.ids.size() > 0'>
+            and cp.id in
+            <foreach collection="ctx.ids" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test='ctx.commonOpt != null and ctx.commonOpt == 1'>
+            and cp.common_opt = 1
+        </if>
+        <if test='ctx.tags != null and ctx.tags != ""'>
+            and cp.tags like concat('%"', #{ctx.tags}, '"%')
+        </if>
+        order by cp.weight desc
+    </select>
+</mapper>

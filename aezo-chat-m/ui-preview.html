@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>One Chat - 东方美学设计</title>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		:root {
+			--墨-浓: #1A1A1A;
+			--墨-中: #333333;
+			--墨-淡: #666666;
+			--墨-清: #999999;
+			--墨-浅: #E8E6E3;
+			--青瓷-深: #2D5A4A;
+			--青瓷-正: #4A8B7C;
+			--青瓷-透: rgba(74, 139, 124, 0.12);
+			--朱砂-深: #B33A3A;
+			--朱砂-正: #D94F4F;
+			--朱砂-浅: rgba(217, 79, 79, 0.12);
+			--金箔: #C9A962;
+			--金箔-透: rgba(201, 169, 98, 0.15);
+			--宣纸-白: #FAFAF8;
+			--宣纸-米: #F5F3EE;
+		}
+
+		body {
+			font-family: 'Noto Serif SC', -apple-system, "PingFang SC", serif;
+			background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+			min-height: 100vh;
+			padding: 40px 20px;
+		}
+
+		.header {
+			text-align: center;
+			margin-bottom: 40px;
+			color: white;
+		}
+
+		.header h1 {
+			font-size: 36px;
+			font-weight: 700;
+			margin-bottom: 12px;
+			letter-spacing: 0.15em;
+		}
+
+		.header h1 span {
+			background: linear-gradient(135deg, var(--青瓷-浅), var(--金箔));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.header p {
+			color: #94A3B8;
+			font-size: 16px;
+			letter-spacing: 0.1em;
+		}
+
+		.preview-grid {
+			display: flex;
+			justify-content: center;
+			gap: 40px;
+			flex-wrap: wrap;
+		}
+
+		.phone-frame {
+			width: 375px;
+			height: 812px;
+			background: var(--宣纸-白);
+			background-image:
+				radial-gradient(ellipse 120% 60% at 20% 10%, var(--青瓷-透), transparent 50%),
+				radial-gradient(ellipse 80% 40% at 80% 90%, var(--金箔-透), transparent 40%);
+			background-size: 100% 100%, 100% 100%;
+			border-radius: 40px;
+			overflow: hidden;
+			position: relative;
+			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+		}
+
+		.phone-frame::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 150px;
+			height: 30px;
+			background: #000;
+			border-radius: 0 0 20px 20px;
+			z-index: 100;
+		}
+
+		.content {
+			padding: 0 16px;
+			height: calc(100% - 44px);
+			overflow-y: auto;
+		}
+
+		/* Navigation */
+		.topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 24px 8px 20px;
+		}
+
+		.topbar__back {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 10px 16px;
+			border: 1px solid var(--墨-浅);
+			border-radius: 999px;
+			font-size: 14px;
+			color: var(--墨-中);
+		}
+
+		.topbar__title {
+			font-size: 18px;
+			font-weight: 600;
+			letter-spacing: 0.15em;
+			color: var(--墨-浓);
+		}
+
+		.topbar__spacer {
+			width: 80px;
+		}
+
+		/* Card */
+		.glass-card {
+			background: rgba(250, 250, 248, 0.85);
+			border-radius: 24px;
+			box-shadow: 0 16px 48px rgba(26, 26, 26, 0.08);
+			padding: 24px 20px;
+			margin: 8px 0 16px;
+			position: relative;
+		}
+
+		.glass-card::before {
+			content: '';
+			position: absolute;
+			top: 6px;
+			left: 6px;
+			right: 6px;
+			bottom: 6px;
+			border: 1px solid rgba(74, 139, 124, 0.06);
+			border-radius: 20px;
+			pointer-events: none;
+		}
+
+		/* Seal */
+		.seal {
+			position: absolute;
+			top: 12px;
+			right: 16px;
+			width: 28px;
+			height: 28px;
+			background: var(--朱砂-正);
+			color: white;
+			font-size: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 2px;
+			opacity: 0.2;
+			transform: rotate(8deg);
+		}
+
+		.hero__top {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 16px;
+		}
+
+		.hero__kicker {
+			display: inline-block;
+			padding: 4px 10px;
+			background: var(--青瓷-深);
+			color: white;
+			font-size: 11px;
+			letter-spacing: 0.15em;
+			margin-bottom: 10px;
+		}
+
+		.hero__title {
+			font-size: 28px;
+			font-weight: 700;
+			line-height: 1.3;
+			letter-spacing: 0.05em;
+			color: var(--墨-浓);
+		}
+
+		.hero__desc {
+			margin-top: 8px;
+			font-size: 13px;
+			line-height: 1.8;
+			color: var(--墨-淡);
+		}
+
+		.status-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 12px;
+			border-radius: 999px;
+			font-size: 11px;
+			background: var(--青瓷-透);
+			color: var(--青瓷-深);
+		}
+
+		.status-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: currentColor;
+		}
+
+		.hero__actions {
+			display: flex;
+			gap: 10px;
+			margin-top: 16px;
+		}
+
+		.hero__chip {
+			padding: 6px 14px;
+			border-radius: 999px;
+			font-size: 12px;
+			background: var(--青瓷-透);
+			color: var(--青瓷-深);
+		}
+
+		.hero__chip--ghost {
+			background: transparent;
+			border: 1px solid var(--墨-浅);
+			color: var(--墨-中);
+		}
+
+		/* Quick Prompts */
+		.quick-prompts {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 10px;
+			margin-top: 20px;
+		}
+
+		.quick-card {
+			padding: 14px;
+			background: var(--宣纸-白);
+			border-radius: 18px;
+			border: 1px solid var(--墨-浅);
+			position: relative;
+		}
+
+		.quick-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 16px;
+			height: 16px;
+			background: linear-gradient(135deg, transparent 50%, var(--青瓷-透) 50%);
+			border-radius: 0 18px 0 0;
+		}
+
+		.quick-card__icon {
+			width: 36px;
+			height: 36px;
+			border-radius: 12px;
+			background: var(--青瓷-透);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 8px;
+			font-size: 18px;
+		}
+
+		.quick-card__title {
+			font-size: 12px;
+			font-weight: 600;
+			color: var(--墨-浓);
+			margin-bottom: 4px;
+		}
+
+		.quick-card__text {
+			font-size: 10px;
+			line-height: 1.5;
+			color: var(--墨-淡);
+		}
+
+		/* Messages */
+		.chat-surface {
+			padding: 8px 0 100px;
+		}
+
+		.message {
+			display: flex;
+			gap: 10px;
+			margin-bottom: 20px;
+		}
+
+		.message--self {
+			flex-direction: row-reverse;
+		}
+
+		.message-avatar {
+			width: 36px;
+			height: 36px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 12px;
+			font-weight: 600;
+			flex-shrink: 0;
+			border-radius: 12px;
+		}
+
+		.message-avatar--ai {
+			background: linear-gradient(135deg, var(--墨-浓), var(--墨-中));
+			color: white;
+		}
+
+		.message-avatar--user {
+			background: linear-gradient(135deg, var(--青瓷-深), var(--青瓷-正));
+			color: white;
+		}
+
+		.message-content {
+			max-width: 72%;
+		}
+
+		.message-header {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 4px;
+			padding: 0 4px;
+		}
+
+		.message--self .message-header {
+			flex-direction: row-reverse;
+		}
+
+		.message-name {
+			font-size: 12px;
+			font-weight: 600;
+			color: var(--墨-浓);
+		}
+
+		.message-time {
+			font-size: 10px;
+			color: var(--墨-清);
+		}
+
+		.message-bubble {
+			padding: 12px 14px;
+			font-size: 14px;
+			line-height: 1.75;
+		}
+
+		.message-bubble--ai {
+			background: var(--宣纸-白);
+			color: var(--墨-浓);
+			border-radius: 18px 24px 24px 18px;
+			border: 1px solid var(--墨-浅);
+		}
+
+		.message-bubble--user {
+			background: linear-gradient(135deg, var(--青瓷-深), var(--青瓷-正));
+			color: white;
+			border-radius: 24px 18px 18px 24px;
+		}
+
+		/* Typing */
+		.typing-indicator {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			padding: 4px 0;
+		}
+
+		.typing-indicator__dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: var(--青瓷-深);
+			animation: typing 1.6s ease-in-out infinite;
+		}
+
+		.typing-indicator__dot:nth-child(2) { animation-delay: 0.2s; }
+		.typing-indicator__dot:nth-child(3) { animation-delay: 0.4s; }
+
+		@keyframes typing {
+			0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+			30% { transform: translateY(-6px); opacity: 1; }
+		}
+
+		/* Composer */
+		.composer {
+			position: absolute;
+			left: 16px;
+			right: 16px;
+			bottom: 24px;
+		}
+
+		.composer__bar {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 10px;
+			background: rgba(250, 250, 248, 0.9);
+			backdrop-filter: blur(10px);
+			border-radius: 24px;
+			border: 1px solid var(--墨-浅);
+			box-shadow: 0 16px 48px rgba(26, 26, 26, 0.08);
+		}
+
+		.composer__tool {
+			width: 40px;
+			height: 40px;
+			border-radius: 12px;
+			background: var(--墨-浅);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 20px;
+			color: var(--墨-中);
+		}
+
+		.composer__input {
+			flex: 1;
+			height: 40px;
+			padding: 0 14px;
+			background: var(--宣纸-白);
+			border-radius: 12px;
+			font-size: 14px;
+			color: var(--墨-浓);
+			border: none;
+			outline: none;
+		}
+
+		.composer__send {
+			height: 40px;
+			padding: 0 20px;
+			background: var(--墨-浓);
+			color: white;
+			font-size: 13px;
+			font-weight: 600;
+			letter-spacing: 0.1em;
+			border-radius: 12px;
+			border: none;
+		}
+
+		/* Error */
+		.message-error {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 8px 14px;
+			margin: 0 auto 16px;
+			background: var(--朱砂-浅);
+			color: var(--朱砂-深);
+			font-size: 12px;
+			border-radius: 999px;
+		}
+
+		/* Empty State */
+		.history-empty {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 80px 24px;
+		}
+
+		.history-empty__icon {
+			width: 80px;
+			height: 80px;
+			border-radius: 50%;
+			background: var(--青瓷-透);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 20px;
+			font-size: 40px;
+			color: var(--青瓷-深);
+		}
+
+		.history-empty__text {
+			font-size: 18px;
+			font-weight: 600;
+			color: var(--墨-浓);
+			margin-bottom: 6px;
+		}
+
+		.history-empty__hint {
+			font-size: 13px;
+			color: var(--墨-淡);
+		}
+
+		.clear-btn {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 10px 20px;
+			background: var(--宣纸-白);
+			border: 1px solid var(--朱砂-浅);
+			border-radius: 999px;
+			font-size: 13px;
+			color: var(--朱砂-深);
+		}
+
+		.page-label {
+			position: absolute;
+			bottom: -50px;
+			left: 50%;
+			transform: translateX(-50%);
+			font-size: 14px;
+			color: #64748B;
+			white-space: nowrap;
+		}
+
+		/* Drawer */
+		.drawer-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(26, 26, 26, 0.3);
+			border-radius: 40px;
+			z-index: 50;
+		}
+
+		.drawer-container {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: var(--宣纸-白);
+			border-radius: 24px 24px 0 0;
+			padding: 0 0 24px;
+		}
+
+		.drawer-handle {
+			display: flex;
+			justify-content: center;
+			padding: 12px 0 8px;
+		}
+
+		.drawer-handle__bar {
+			width: 40px;
+			height: 4px;
+			border-radius: 2px;
+			background: var(--墨-浅);
+		}
+
+		.drawer-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 8px 20px 16px;
+			border-bottom: 1px solid var(--墨-浅);
+		}
+
+		.drawer-header__title {
+			font-size: 16px;
+			font-weight: 600;
+			letter-spacing: 0.1em;
+			color: var(--墨-浓);
+		}
+
+		.drawer-header__close {
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: var(--墨-浅);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			color: var(--墨-中);
+		}
+
+		.drawer-content {
+			padding: 16px 20px;
+		}
+
+		.profile-card {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+			padding: 16px;
+			background: var(--青瓷-透);
+			border-radius: 16px;
+			margin-bottom: 14px;
+		}
+
+		.profile-avatar {
+			width: 48px;
+			height: 48px;
+			border-radius: 12px;
+			background: linear-gradient(135deg, var(--青瓷-深), var(--青瓷-正));
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			font-weight: 600;
+			color: white;
+		}
+
+		.profile-name {
+			font-size: 15px;
+			font-weight: 600;
+			color: var(--墨-浓);
+			margin-bottom: 4px;
+		}
+
+		.profile-id {
+			font-size: 12px;
+			color: var(--墨-淡);
+		}
+
+		.asset-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 10px;
+			margin-bottom: 14px;
+		}
+
+		.asset-card {
+			padding: 14px;
+			background: var(--宣纸-白);
+			border-radius: 12px;
+			border: 1px solid var(--墨-浅);
+			text-align: center;
+		}
+
+		.asset-value {
+			font-size: 24px;
+			font-weight: 700;
+			color: var(--青瓷-深);
+		}
+
+		.asset-label {
+			font-size: 11px;
+			color: var(--墨-淡);
+			margin-top: 4px;
+		}
+
+		.action-card {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 14px;
+			background: var(--宣纸-白);
+			border-radius: 12px;
+			border: 1px solid var(--墨-浅);
+			margin-bottom: 10px;
+		}
+
+		.action-title {
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--墨-浓);
+			margin-bottom: 4px;
+		}
+
+		.action-desc {
+			font-size: 12px;
+			color: var(--墨-淡);
+		}
+
+		.action-btn {
+			padding: 8px 16px;
+			background: var(--青瓷-深);
+			color: white;
+			font-size: 13px;
+			font-weight: 500;
+			border-radius: 999px;
+			border: none;
+		}
+
+		.quick-actions {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 10px;
+			margin-top: 14px;
+		}
+
+		.quick-action-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 8px;
+			padding: 12px 8px;
+			background: var(--宣纸-白);
+			border-radius: 12px;
+			border: 1px solid var(--墨-浅);
+		}
+
+		.quick-action-icon {
+			width: 36px;
+			height: 36px;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 18px;
+		}
+
+		.quick-action-icon--amber {
+			background: var(--朱砂-浅);
+			color: var(--朱砂-深);
+		}
+
+		.quick-action-icon--teal {
+			background: var(--青瓷-透);
+			color: var(--青瓷-深);
+		}
+
+		.quick-action-icon--gray {
+			background: var(--墨-浅);
+			color: var(--墨-中);
+		}
+
+		.quick-action-label {
+			font-size: 11px;
+			color: var(--墨-中);
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<h1><span>壹</span> 能聊天</h1>
+		<p>水墨意境 · 东方美学 · 禅意留白</p>
+	</div>
+
+	<div class="preview-grid">
+		<!-- Main Chat Page -->
+		<div class="phone-frame" style="position: relative;">
+			<div class="content">
+				<div class="topbar">
+					<div class="topbar__back">← 返回</div>
+					<div class="topbar__title">壹能聊天</div>
+					<div class="topbar__spacer"></div>
+				</div>
+
+				<div class="glass-card">
+					<div class="seal">壹</div>
+					<div class="hero__top">
+						<div>
+							<div class="hero__kicker">AI 助理</div>
+							<div class="hero__title">智能对话<br>诗意人生</div>
+							<div class="hero__desc">连接已建立，言语之间，智慧自现。</div>
+						</div>
+						<div class="status-badge">
+							<span class="status-dot"></span>
+							<span>已连接</span>
+						</div>
+					</div>
+					<div class="hero__actions">
+						<span class="hero__chip">账号模式</span>
+						<span class="hero__chip hero__chip--ghost">历史记录</span>
+					</div>
+
+					<div class="quick-prompts">
+						<div class="quick-card">
+							<div class="quick-card__icon">✨</div>
+							<div class="quick-card__title">文案润色</div>
+							<div class="quick-card__text">笔墨生辉，字字珠玑</div>
+						</div>
+						<div class="quick-card">
+							<div class="quick-card__icon">📋</div>
+							<div class="quick-card__title">工作助手</div>
+							<div class="quick-card__text">条理分明，事半功倍</div>
+						</div>
+						<div class="quick-card">
+							<div class="quick-card__icon">💡</div>
+							<div class="quick-card__title">学习提问</div>
+							<div class="quick-card__text">深入浅出，明理通达</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="chat-surface">
+					<div class="message">
+						<div class="message-avatar message-avatar--ai">AI</div>
+						<div class="message-content">
+							<div class="message-header">
+								<span class="message-name">壹</span>
+								<span class="message-time">申时三刻</span>
+							</div>
+							<div class="message-bubble message-bubble--ai">
+								客官好，在下壹能，有何见教？
+							</div>
+						</div>
+					</div>
+
+					<div class="message message--self">
+						<div class="message-content">
+							<div class="message-header">
+								<span class="message-name">你</span>
+								<span class="message-time">申时三刻</span>
+							</div>
+							<div class="message-bubble message-bubble--user">
+								请为我写一段关于茶的文案
+							</div>
+						</div>
+						<div class="message-avatar message-avatar--user">吾</div>
+					</div>
+
+					<div class="message">
+						<div class="message-avatar message-avatar--ai">AI</div>
+						<div class="message-content">
+							<div class="message-header">
+								<span class="message-name">壹</span>
+								<span class="message-time">凝思中</span>
+							</div>
+							<div class="message-bubble message-bubble--ai">
+								<div class="typing-indicator">
+									<span class="typing-indicator__dot"></span>
+									<span class="typing-indicator__dot"></span>
+									<span class="typing-indicator__dot"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="composer">
+					<div class="composer__bar">
+						<div class="composer__tool">☰</div>
+						<input class="composer__input" type="text" placeholder="请言...">
+						<button class="composer__send">发送</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="page-label">主聊天页面</div>
+		</div>
+
+		<!-- Menu Drawer -->
+		<div class="phone-frame" style="position: relative;">
+			<div class="drawer-overlay">
+				<div class="drawer-container">
+					<div class="drawer-handle">
+						<div class="drawer-handle__bar"></div>
+					</div>
+
+					<div class="drawer-header">
+						<span class="drawer-header__title">我的菜单</span>
+						<div class="drawer-header__close">✕</div>
+					</div>
+
+					<div class="drawer-content">
+						<div class="profile-card">
+							<div class="profile-avatar">吾</div>
+							<div>
+								<div class="profile-name">雅士</div>
+								<div class="profile-id">ID：壹贰叁肆伍</div>
+							</div>
+						</div>
+
+						<div class="asset-grid">
+							<div class="asset-card">
+								<div class="asset-value">88</div>
+								<div class="asset-label">拥有额度</div>
+							</div>
+							<div class="asset-card">
+								<div class="asset-value">5</div>
+								<div class="asset-label">每日免费</div>
+							</div>
+						</div>
+
+						<div class="action-card">
+							<div>
+								<div class="action-title">邀请新友</div>
+								<div class="action-desc">赠十次/人，日限五人</div>
+							</div>
+							<button class="action-btn">邀请</button>
+						</div>
+
+						<div class="action-card">
+							<div>
+								<div class="action-title">观视频攒次数</div>
+								<div class="action-desc">赠三次/个，日限十次</div>
+							</div>
+							<button class="action-btn">观看</button>
+						</div>
+
+						<div class="quick-actions">
+							<div class="quick-action-item">
+								<div class="quick-action-icon quick-action-icon--amber">👑</div>
+								<span class="quick-action-label">开通会员</span>
+							</div>
+							<div class="quick-action-item">
+								<div class="quick-action-icon quick-action-icon--teal">📦</div>
+								<span class="quick-action-label">次数包</span>
+							</div>
+							<div class="quick-action-item">
+								<div class="quick-action-icon quick-action-icon--teal">💬</div>
+								<span class="quick-action-label">客服领次数</span>
+							</div>
+							<div class="quick-action-item">
+								<div class="quick-action-icon quick-action-icon--gray">🗑️</div>
+								<span class="quick-action-label">清除记忆</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="page-label">底部菜单抽屉</div>
+		</div>
+
+		<!-- History Page -->
+		<div class="phone-frame" style="position: relative;">
+			<div class="content">
+				<div class="topbar">
+					<div class="topbar__back">← 返回</div>
+					<div class="topbar__title">聊天历史</div>
+					<div class="topbar__spacer"></div>
+				</div>
+
+				<div class="chat-surface">
+					<div class="message">
+						<div class="message-avatar message-avatar--ai">AI</div>
+						<div class="message-content">
+							<div class="message-header">
+								<span class="message-name">壹</span>
+								<span class="message-time">申时</span>
+							</div>
+							<div class="message-bubble message-bubble--ai">
+								客官好，在下壹能
+							</div>
+						</div>
+					</div>
+
+					<div class="message message--self">
+						<div class="message-content">
+							<div class="message-header">
+								<span class="message-name">你</span>
+								<span class="message-time">申时</span>
+							</div>
+							<div class="message-bubble message-bubble--user">
+								请为我写一段关于茶的文案
+							</div>
+						</div>
+						<div class="message-avatar message-avatar--user">吾</div>
+					</div>
+
+					<div class="message">
+						<div class="message-avatar message-avatar--ai">AI</div>
+						<div class="message-content">
+							<div class="message-header">
+								<span class="message-name">壹</span>
+								<span class="message-time">申时</span>
+							</div>
+							<div class="message-bubble message-bubble--ai">
+								🍵 茶者，南方之嘉木也。<br><br>
+								一盏清茶，洗尽尘心。茶叶在水中舒展，如人生经历沉淀。品味之间，苦尽甘来，余韵悠长。
+							</div>
+						</div>
+					</div>
+
+					<div class="message-error">
+						<span>⚠️</span>
+						<span>网络连接异常，请稍后再试~</span>
+					</div>
+				</div>
+
+				<div style="position: absolute; bottom: 40px; left: 0; right: 0; display: flex; justify-content: center;">
+					<div class="clear-btn">
+						<span>🗑️</span>
+						<span>清空历史</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="page-label">聊天历史页面</div>
+		</div>
+	</div>
+</body>
+</html>

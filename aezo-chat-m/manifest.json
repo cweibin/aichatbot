@@ -1,0 +1,21 @@
+{
+  "name": "aezo-chat-m",
+  "appid": "__UNI__AEZOCHATM",
+  "description": "One Chat H5 - 东方美学",
+  "versionName": "1.0.0",
+  "versionCode": 1,
+  "transformPx": false,
+  "h5": {
+    "title": "One Chat - 东方美学",
+    "router": {
+      "mode": "history",
+      "base": ""
+    },
+    "optimization": {
+      "treeShaking": {
+        "enable": false
+      }
+    }
+  },
+  "vueVersion": "2"
+}

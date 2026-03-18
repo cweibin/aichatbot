@@ -1,0 +1,14 @@
+{
+  "pages": [
+    {
+      "path": "pages/main/index",
+      "style": {
+        "navigationBarTitleText": "One Chat",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationStyle": "custom"
+  }
+}
