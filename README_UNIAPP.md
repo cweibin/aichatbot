@@ -1,7 +1,7 @@
 ## ChatGPT-MP(基于ChatGPT实现的微信小程序，适配H5/WEB端)
 
 包含前后台，技术栈：JDK8 + SpringBoot + Vue2 + Uniapp + Mysql
-
+hihi
 小程序演示地址
 
 ![One能抽屉](https://cdn7.aezo.cn/common/qrcode/one_qrcode.jpg)
